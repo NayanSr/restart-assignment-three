@@ -2,10 +2,22 @@ import { useEffect, useState } from "react";
 import { FaRegStar, FaRegThumbsUp } from "react-icons/fa";
 import { IoMdDownload } from "react-icons/io";
 import { useParams } from "react-router";
+import {
+  addAsInstalledToLs,
+  getStoredDataFromLs,
+} from "../../utilities/addToLs";
+
+// const getStoredDataFromLs = (keyName) => { ....... const addAsInstalledToLs = (id,keyName) => {
 
 const Details = () => {
   const { id } = useParams();
   const [app, setApp] = useState(null);
+
+  const handleInstall = (id) => {    
+    addAsInstalledToLs(id, "installed");
+  };
+    const isInstalled = getStoredDataFromLs('installed') || [];
+  const alreadyInstalled = isInstalled.includes(app?.id);
 
   useEffect(() => {
     fetch("/appData.json")
@@ -20,7 +32,6 @@ const Details = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-gray-100">
-   
       <div className="flex gap-6 bg-white p-6 rounded-lg shadow">
         <img
           src={app.image}
@@ -35,10 +46,12 @@ const Details = () => {
             <span className="text-blue-500">{app.companyName}</span>
           </p>
 
-        
           <div className="flex gap-10 mt-4 text-center">
             <div>
-              <p className="text-green-600 text-xl"> <IoMdDownload /></p>
+              <p className="text-green-600 text-xl">
+                {" "}
+                <IoMdDownload />
+              </p>
               <p className="font-semibold">
                 {(app.downloads / 1000000).toFixed(0)}M
               </p>
@@ -46,13 +59,17 @@ const Details = () => {
             </div>
 
             <div>
-              <p className="text-yellow-500 text-xl"><FaRegStar /></p>
+              <p className="text-yellow-500 text-xl">
+                <FaRegStar />
+              </p>
               <p className="font-semibold">{app.ratingAvg}</p>
               <p className="text-xs text-gray-500">Average Rating</p>
             </div>
 
             <div>
-              <p className="text-purple-500 text-xl"><FaRegThumbsUp /></p>
+              <p className="text-purple-500 text-xl">
+                <FaRegThumbsUp />
+              </p>
               <p className="font-semibold">
                 {(app.reviews / 1000).toFixed(0)}K
               </p>
@@ -60,13 +77,23 @@ const Details = () => {
             </div>
           </div>
 
-        
-          <button className="mt-4 bg-green-500 text-white px-5 py-2 rounded shadow">
-            Install Now ({app.size} MB)
-          </button>
+          {alreadyInstalled ? (
+            <button
+              disabled
+              className="mt-4 bg-gray-400 text-white px-5 py-2 rounded shadow cursor-not-allowed"
+            >
+              Installed
+            </button>
+          ) : (
+            <button
+              onClick={() => handleInstall(app.id)}
+              className="mt-4 bg-green-500 text-white px-5 py-2 rounded shadow"
+            >
+              Install Now ({app.size} MB)
+            </button>
+            )} 
         </div>
       </div>
-
 
       <div className="bg-white mt-6 p-6 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-4">Ratings</h3>
@@ -92,7 +119,6 @@ const Details = () => {
           ))}
       </div>
 
-    
       <div className="bg-white mt-6 p-6 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-3">Description</h3>
         <p className="text-gray-600 text-sm leading-relaxed">

@@ -30,7 +30,8 @@ const routes = createBrowserRouter([
       },
       {
         path:'installation',
-        Component: Installation
+        Component: Installation,
+        loader:()=>fetch('/appData.json')
       }
     ],
   },
