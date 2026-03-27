@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import Card from "../Card/Card"
 
 const TrendingApp = ({allApps}) => {
@@ -14,7 +15,7 @@ const TrendingApp = ({allApps}) => {
         {topRatedApps?.map(app=><Card key={app.id} app={app}/>)}
       </div>
      </div>
-     <button className="btn mt-10 mb-20 bg-linear-to-br from-[#632EE3] to-[#9F62F2] text-white">Show All App</button>
+    <Link to='/apps'> <button className="btn mt-10 mb-20 bg-linear-to-br from-[#632EE3] to-[#9F62F2] text-white">Show All App</button></Link>
     </div>
   )
 }

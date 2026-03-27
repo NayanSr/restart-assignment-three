@@ -1,6 +1,9 @@
+import { Link } from "react-router";
+
 const Card=({app})=>{
    return (
-    <div className="card max-w-72 bg-base-100 shadow-md hover:shadow-2xl transition">
+    <Link to={`/apps/${app.id}`}>
+     <div className="card max-w-72 bg-base-100 shadow-md hover:shadow-2xl transition">
       {/* Image */}
       <figure>
         <img
@@ -39,6 +42,8 @@ const Card=({app})=>{
         </p>
       </div>
     </div>
+    </Link>
+   
   );
 }
 export default Card;
