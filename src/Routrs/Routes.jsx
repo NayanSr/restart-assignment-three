@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Root from "../pages/Root/Root";
 import Home from "../pages/Home/Home";
+import AllApps from "../pages/AllApps/AllApps";
 
 const routes = createBrowserRouter([
   {
@@ -11,11 +12,17 @@ const routes = createBrowserRouter([
       {
         index: true,
         path: "/",
+        loader:()=>fetch('appData.json'),
         Component: Home,
       },
       {
-        path:'about',
-        element:<h2>Aboute Page</h2>
+        path:'apps',
+        loader:()=>fetch('appData.json'),
+       Component: AllApps
+      },
+      {
+        path:'installation',
+        element:<h2>Installed app Page</h2>
       }
     ],
   },
